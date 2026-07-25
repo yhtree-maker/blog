@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="yhtree-maker">
+<title>Claude Code 完全配置指南：Skills、Obsidian 与博客发布 — yhtree-maker&#x27;s Blog</title>
+<style>/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  line-height: 1.75;
+  color: #333;
+  background: #fafafa;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { color: #111; margin: 2rem 0 0.75rem; line-height: 1.3; }
+h1 { font-size: 1.8rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.15rem; }
+p { margin: 0.75rem 0; }
+ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+li { margin: 0.25rem 0; }
+pre {
+  background: #1e293b; color: #e2e8f0; padding: 1rem;
+  border-radius: 6px; overflow-x: auto; margin: 1rem 0;
+  font-size: 0.9rem; line-height: 1.5;
+}
+code { background: #f1f5f9; padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+blockquote {
+  border-left: 3px solid #2563eb; padding: 0.5rem 1rem;
+  margin: 1rem 0; color: #555; background: #f8fafc; border-radius: 0 4px 4px 0;
+}
+hr { border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
+img { max-width: 100%; border-radius: 4px; }
+
+/* ── Layout ── */
+header { margin-bottom: 2rem; }
+header h1 { border-bottom: none; margin: 0; }
+header h1 a { color: #111; }
+header nav { margin-top: 0.5rem; }
+header nav a { color: #666; font-size: 0.9rem; margin-right: 1.5rem; }
+
+/* ── Post list ── */
+.post-item { padding: 1rem 0; border-bottom: 1px solid #eee; }
+.post-item h2 { margin: 0; font-size: 1.2rem; }
+.post-item h2 a { color: #111; }
+.post-item .meta { color: #888; font-size: 0.85rem; margin-top: 0.25rem; }
+.post-item .tags { margin-top: 0.25rem; }
+.post-item .tags span {
+  display: inline-block; background: #e2e8f0; color: #475569;
+  padding: 0.1em 0.6em; border-radius: 10px; font-size: 0.75rem; margin-right: 0.3rem;
+}
+
+/* ── Post page ── */
+article .meta { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
+article .tags { margin: 2rem 0 1rem; }
+article .tags a {
+  display: inline-block; background: #e2e8f0; color: #475569; text-decoration: none;
+  padding: 0.15em 0.7em; border-radius: 10px; font-size: 0.8rem; margin-right: 0.3rem;
+}
+article .tags a:hover { background: #cbd5e1; }
+
+footer {
+  margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;
+  text-align: center; color: #999; font-size: 0.85rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  body { padding: 1rem; }
+  h1 { font-size: 1.4rem; }
+}
+</style>
+
+</head>
+<body>
+<header>
+  <h1><a href="/">yhtree-maker&#x27;s Blog</a></h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/articles/">Articles</a>
+    <a href="https://github.com/yhtree-maker">GitHub</a>
+  </nav>
+</header>
+<article>
+  <h1>Claude Code 完全配置指南：Skills、Obsidian 与博客发布</h1>
+  <div class="meta"><time datetime="2026-07-25T00:00:00">2026-07-25</time></div>
+  <h2>前言</h2>
+<p>这套配置让我可以在手机上完成从采访笔记到博客发布的完整写作流程。用几个词概括：<strong>Obisidian 记录，Claude Code 写作，一键发布，网盘备份</strong>。</p>
+<p>本文记录完整的搭建过程，涵盖三个方向：</p>
+<ol>
+  <li>安装 Claude Code Skills（浏览器自动化、人性化写作、头脑风暴等）</li>
+  <li>打通 Obsidian 与 Claude Code 的文件系统</li>
+  <li>搭建静态博客发布管道</li>
+</ol>
+<hr>
+<h2>一、安装 Claude Code Skills</h2>
+<p>Skills 是 Claude Code 的可复用技能系统，能将常用工作流固化为命令。</p>
+<h3>已安装的技能清单</h3>
+<p>| 技能 | 功能 | 用法 |</p>
+<p>|------|------|------|</p>
+<p>| <strong>find-skills</strong> | 自动搜索和推荐技能 | 直接说"帮我找一个…的技能" |</p>
+<p>| <strong>humanizer-zh</strong> | 识别 24 种 AI 写作痕迹并人性化改写 | <code>/humanizer-zh</code> |</p>
+<p>| <strong>brainstorming</strong> | 九步强制创意规划流程 | <code>/brainstorming</code> |</p>
+<p>| <strong>web-access</strong> | 通过 CDP 直连 Chrome，处理需要登录的场景 | <code>/web-access</code> |</p>
+<p>| <strong>agent-browser</strong> | 浏览器自动化（抓取/测试/表单/调试） | <code>/agent-browser</code> |</p>
+<p>| <strong>skill-creator</strong> | 引导式创建自定义技能 | <code>/skill-creator</code> |</p>
+<h3>安装方式</h3>
+<p>由于 npm 环境存在 glob 模块损坏的问题，我采用了直接克隆仓库 + 手动部署的方式：</p>
+<pre><code class="language-bash"># 通用安装模式
+git clone &lt;repo-url&gt; /tmp/&lt;skill-name&gt;
+mkdir -p ~/.claude/skills/&lt;skill-name&gt;
+cp SKILL.md ~/.claude/skills/&lt;skill-name&gt;/</code></pre>
+<p>所有技能文件存放在 <code>~/.claude/skills/</code> 目录下，Claude Code 会自动加载。</p>
+<hr>
+<h2>二、打通 Obsidian 与 Claude Code</h2>
+<h3>核心原理</h3>
+<p>Android 上 Obsidian 运行在图形界面，Claude Code 运行在 PRoot Distro 命令行中。打通它们的关键是：<strong>不要试图让两个工具互相通信，而是让它们共享同一个文件系统</strong>。</p>
+<p>PRoot Distro 容器可以直接访问 <code>/storage/emulated/0/</code>（Android 系统级挂载点，不会被容器隔离），所以只要将 Obsidian vault 建在共享存储路径下即可。</p>
+<h3>配置步骤</h3>
+<p><strong>第一步：在 Obsidian 中创建 Vault</strong></p>
+<p>将 vault 位置设为：</p>
+<pre><code>/storage/emulated/0/Documents/obside/</code></pre>
+<p><strong>第二步：在 PRoot Distro 中创建符号链接</strong></p>
+<pre><code class="language-bash">ln -sf /storage/emulated/0/Documents/obside ~/obsidian-vault
+ln -sf ~/obsidian-vault/articles ~/articles
+mkdir -p ~/obsidian-vault/notes</code></pre>
+<p><strong>第三步：验证连通性</strong></p>
+<pre><code class="language-bash">echo &quot;测试&quot; &gt; ~/articles/test.md
+# 在 Obsidian 中应能看到 test.md
+cat /storage/emulated/0/Documents/obside/articles/test.md
+# 应输出 &quot;测试&quot;</code></pre>
+<h3>最终目录映射</h3>
+<pre><code>Obsidian (Android)                        PRoot Distro (命令行)
+─────────────────                        ────────────────────
+/storage/emulated/0/Documents/obside/    ~/obsidian-vault  (symlink)
+  ├── .obsidian/                           ~/articles  (symlink)
+  ├── articles/  ◄────────────────────── Claude Code 写文章
+  └── notes/                              采访笔记存放</code></pre>
+<hr>
+<h2>三、博客发布管道</h2>
+<h3>技术架构</h3>
+<pre><code>Markdown 文章 → publish.py (Python 标准库) → HTML → GitHub Pages
+                    │
+                    └── Jinja2 模板（内嵌 CSS，自包含）</code></pre>
+<p>全流程零外部依赖——<code>publish.py</code> 仅使用 Python 标准库，包含简易 Markdown 解析器、HTML 模板引擎和本地预览服务器。</p>
+<h3>文件结构</h3>
+<pre><code>/root/blog/
+├── publish.py          # 静态站点生成器
+├── deploy.sh           # 构建 + Git 推送 + rclone 同步
+├── all-in-one.sh       # 一键：构建 → 发布 → 备份
+├── output/             # 生成的 HTML
+└── worktree/           # GitHub Pages 仓库工作树</code></pre>
+<h3>工作流</h3>
+<pre><code> 1. Obsidian 记采访笔记         →  notes/
+ 2. Claude Code 读取并写文章    →  articles/draft.md
+ 3. Obsidian 中编辑草稿
+ 4. bash /root/blog/deploy.sh  →  发布到 GitHub Pages
+ 5. rclone sync                →  备份到网盘</code></pre>
+<h3>常用命令</h3>
+<pre><code class="language-bash"># 本地预览
+python3 /root/blog/publish.py --serve
+
+# 构建 + 发布
+bash /root/blog/deploy.sh
+
+# 一键：构建 + 发布 + 网盘备份
+bash /root/blog/all-in-one.sh</code></pre>
+<hr>
+<h2>四、权限配置</h2>
+<p>为减少 Claude Code 的审批弹窗，配置了 61 条权限规则：</p>
+<ul>
+  <li><strong>项目设置</strong> (<code>.claude/settings.json</code>)：12 条通用规则，覆盖目录创建、符号链接、包管理、博客脚本、rclone 同步等</li>
+  <li><strong>本地设置</strong> (<code>.claude/settings.local.json</code>)：49 条精确规则，覆盖具体操作路径</li>
+</ul>
+<p>关键安全原则：</p>
+<ul>
+  <li>博客脚本限定在 <code>/root/blog/</code> 目录</li>
+  <li>不开放任意代码执行（<code>python3 <em></code> 和 <code>node </em></code> 已收紧为具体脚本路径）</li>
+  <li>WebFetch 开放所有域名（写作需要查阅资料）</li>
+</ul>
+<hr>
+<h2>五、补充工具</h2>
+<h3>rclone 网盘同步</h3>
+<pre><code class="language-bash"># 安装
+curl -O https://downloads.rclone.org/rclone-current-linux-arm64.deb
+dpkg -x rclone-current-linux-arm64.deb /tmp/rclone-extract
+cp /tmp/rclone-extract/usr/bin/rclone /usr/local/bin/rclone
+
+# 配置
+rclone config
+
+# 同步
+rclone sync /storage/emulated/0/Documents/obside/ dropbox:obsidian-notes --progress</code></pre>
+<h3>agent-browser CLI</h3>
+<pre><code class="language-bash">npm install -g agent-browser
+agent-browser install  # 下载 Chromium</code></pre>
+<hr>
+<h2>小结</h2>
+<p>这套配置的核心价值：</p>
+<ol>
+  <li><strong>Skills 系统</strong>让 Claude Code 的能力模块化、可复用</li>
+  <li><strong>Obsidian 打通</strong>实现了移动端和命令行的无缝衔接</li>
+  <li><strong>博客管道</strong>让写作到发布变成一步操作</li>
+  <li><strong>权限配置</strong>大幅减少了交互摩擦</li>
+</ol>
+<p>最终效果：掏出手机打开 Termux，输入 <code>claude "帮我写一篇关于 XX 的文章"</code>，Claude Code 读取笔记、生成草稿，在 Obsidian 中润色编辑，最后 <code>bash /root/blog/deploy.sh</code> 一键发布——全程无需切换设备。</p>
+  <div class="tags"><a href="/tags/claude.html">claude</a><a href="/tags/obsidian.html">obsidian</a><a href="/tags/skills.html">skills</a><a href="/tags/blog.html">blog</a><a href="/tags/android.html">android</a><a href="/tags/workflow.html">workflow</a></div>
+  <p style="margin-top:3rem"><a href="/">← Back to Home</a></p>
+</article>
+<footer>
+  <p>yhtree-maker&#x27;s Blog — Powered by Claude Code & Obsidian</p>
+</footer>
+</body>
+</html>

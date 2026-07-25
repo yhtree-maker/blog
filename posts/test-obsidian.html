@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="yhtree-maker">
+<title>Obsidian × Claude Code 打通记 — yhtree-maker&#x27;s Blog</title>
+<style>/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  line-height: 1.75;
+  color: #333;
+  background: #fafafa;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { color: #111; margin: 2rem 0 0.75rem; line-height: 1.3; }
+h1 { font-size: 1.8rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.15rem; }
+p { margin: 0.75rem 0; }
+ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+li { margin: 0.25rem 0; }
+pre {
+  background: #1e293b; color: #e2e8f0; padding: 1rem;
+  border-radius: 6px; overflow-x: auto; margin: 1rem 0;
+  font-size: 0.9rem; line-height: 1.5;
+}
+code { background: #f1f5f9; padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+blockquote {
+  border-left: 3px solid #2563eb; padding: 0.5rem 1rem;
+  margin: 1rem 0; color: #555; background: #f8fafc; border-radius: 0 4px 4px 0;
+}
+hr { border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
+img { max-width: 100%; border-radius: 4px; }
+
+/* ── Layout ── */
+header { margin-bottom: 2rem; }
+header h1 { border-bottom: none; margin: 0; }
+header h1 a { color: #111; }
+header nav { margin-top: 0.5rem; }
+header nav a { color: #666; font-size: 0.9rem; margin-right: 1.5rem; }
+
+/* ── Post list ── */
+.post-item { padding: 1rem 0; border-bottom: 1px solid #eee; }
+.post-item h2 { margin: 0; font-size: 1.2rem; }
+.post-item h2 a { color: #111; }
+.post-item .meta { color: #888; font-size: 0.85rem; margin-top: 0.25rem; }
+.post-item .tags { margin-top: 0.25rem; }
+.post-item .tags span {
+  display: inline-block; background: #e2e8f0; color: #475569;
+  padding: 0.1em 0.6em; border-radius: 10px; font-size: 0.75rem; margin-right: 0.3rem;
+}
+
+/* ── Post page ── */
+article .meta { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
+article .tags { margin: 2rem 0 1rem; }
+article .tags a {
+  display: inline-block; background: #e2e8f0; color: #475569; text-decoration: none;
+  padding: 0.15em 0.7em; border-radius: 10px; font-size: 0.8rem; margin-right: 0.3rem;
+}
+article .tags a:hover { background: #cbd5e1; }
+
+footer {
+  margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;
+  text-align: center; color: #999; font-size: 0.85rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  body { padding: 1rem; }
+  h1 { font-size: 1.4rem; }
+}
+</style>
+
+</head>
+<body>
+<header>
+  <h1><a href="/">yhtree-maker&#x27;s Blog</a></h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/articles/">Articles</a>
+    <a href="https://github.com/yhtree-maker">GitHub</a>
+  </nav>
+</header>
+<article>
+  <h1>Obsidian × Claude Code 打通记</h1>
+  <div class="meta"><time datetime="2026-07-25T00:00:00">2026-07-25</time></div>
+  <h2>为什么需要打通这两个工具？</h2>
+<p>Obsidian 是<strong>最好的移动端笔记应用</strong>之一，Claude Code 是最强的 AI 写作助手。</p>
+<blockquote>核心洞察：不要试图让两个工具互相通信，而是让它们共享同一个文件系统。</blockquote>
+<h2>实现步骤</h2>
+<ol>
+  <li>安装 Termux 和 PRoot Distro</li>
+  <li>执行 <code>termux-setup-storage</code></li>
+  <li>创建符号链接打通目录</li>
+  <li>安装 rclone 同步到网盘</li>
+</ol>
+<h2>最终效果</h2>
+<pre><code class="language-bash"># 写作命令
+claude &quot;读取 notes/ 下的采访笔记，写一篇 2000 字的报道&quot;</code></pre>
+<p>现在在 Obsidian 里就能看到生成的草稿，继续编辑后运行 <code>bash /root/blog/deploy.sh</code> 发布。</p>
+  <div class="tags"><a href="/tags/obsidian.html">obsidian</a><a href="/tags/android.html">android</a><a href="/tags/claude.html">claude</a></div>
+  <p style="margin-top:3rem"><a href="/">← Back to Home</a></p>
+</article>
+<footer>
+  <p>yhtree-maker&#x27;s Blog — Powered by Claude Code & Obsidian</p>
+</footer>
+</body>
+</html>
